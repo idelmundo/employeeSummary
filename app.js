@@ -10,10 +10,56 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+//make team function then fs write...
+
+let team = []
+
+function init() {
+    inquirer.prompt([{
+        type: "list",
+        name: "employeeToMake",
+        message: "what team member to build?",
+        choices: ["Manager", "Engineer", "Intern", "done"],
+
+    }]).then(teamMember => {
+        switch (teamMember.employeeToMake) {
+            case "Manager":
+                runManeger()
+                break;
+            case "Engineer":
+                runEngineer()
+                break;
+            case "Intern":
+                runIntern()
+                break;
+            case "Done":
+                makeTeam()
+                break;
+        }
+    })
+}
+
+function engineer() {
+    inquirer.prompt([{
+            type: "input",
+            message: "Enter Name",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is your Employee Id number?",
+            name: "Id"
+        },
+        {
+
+        }
+    ])
+}
 
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+fs.mkdirSync(OUTPUT_DIR)
+    // Write code to use inquirer to gather information about the development team members,
+    // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
