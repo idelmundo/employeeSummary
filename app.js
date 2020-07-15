@@ -9,122 +9,139 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { doesNotMatch } = require("assert");
 
 //make team function then fs write...
 
-let team = []
+var buildTeam = []
 
 function init() {
     inquirer.prompt([{
-        type: "list",
-        name: "employeeToMake",
-        message: "what team member to build?",
-        choices: ["Manager", "Engineer", "Intern", "done"],
+            type: "list",
+            message: "what team member to build?",
+            name: "createTeamMember",
+            choices: ["Manager", "Engineer", "Intern", "Done"],
 
-    }]).then(teamMember => {
-        switch (teamMember.employeeToMake) {
-            case "Manager":
-                runManeger()
-                break;
-            case "Engineer":
-                runEngineer()
-                break;
-            case "Intern":
-                runIntern()
-                break;
-            case "Done":
-                makeTeam()
-                break;
-        }
-    })
-}
-
-function runEngineer() {
-    inquirer.prompt([{
-            type: "input",
-            message: "Enter Name",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "What is your Employee id number?",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "What is your email? "
-        },
-        {
-            type: "input",
-            message: "what is your github username?",
-            name: "github"
-        }
-    ]).then(function(work) {
-        let eng = new Engineer(work.name, work.id, work.email, work.github);
-        team.push(eng);
-        init()
-    })
+        }])
+        .then(teamMember => {
+            switch (teamMember.createTeamMember) {
+                case "Manager":
+                    runManeger()
+                    break;
+                case "Engineer":
+                    runEngineer()
+                    break;
+                case "Intern":
+                    runIntern()
+                    break;
+                case "Done":
+                    awesomeTeam()
+                    break;
+            }
+        })
 }
 
 function runManeger() {
     inquirer.prompt([{
-            type: "input",
-            message: "Enter Name",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "What is your Employee id number?",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "What is your email? "
-        },
-        {
-            type: "input",
-            message: "Enter your office number?",
-            name: "officeNumber"
-        }
-    ]).then(function(work) {
-        let mgr = new Manager(work.name, work.id, work.email, work.github);
-        team.push(mgr);
-        init()
-    })
+                type: "input",
+                message: "Enter Name",
+                name: "name"
+            },
+            {
+                type: "input",
+                message: "What is your Employee id number?",
+                name: "id"
+            },
+            {
+                type: "input",
+                message: "What is your email?",
+                name: "email"
+            },
+            {
+                type: "input",
+                message: "Enter your office number?",
+                name: "officeNumber"
+            },
+        ])
+        .then(function(work) {
+            console.log("show me" + work);
+            var mgr = new Manager(work.name, work.id, work.email, work.officeNumber);
+            buildTeam.push(mgr);
+            init();
+        })
+}
+
+function runEngineer() {
+    inquirer.prompt([{
+                type: "input",
+                message: "Enter Name",
+                name: "name"
+            },
+            {
+                type: "input",
+                message: "What is your Employee id number?",
+                name: "id"
+            },
+            {
+                type: "input",
+                message: "What is your email?",
+                name: "email"
+            },
+            {
+                type: "input",
+                message: "what is your github username?",
+                name: "github"
+            },
+        ])
+        .then(function(work) {
+            console.log("show me" + work);
+            var eng = new Engineer(work.name, work.id, work.email, work.github);
+            buildTeam.push(eng);
+            init()
+        })
 }
 
 function runIntern() {
     inquirer.prompt([{
-            type: "input",
-            message: "Enter Name",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "What is your Employee id number?",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "What is your email? "
-        },
-        {
-            type: "input",
-            message: "What school did you attend?",
-            name: "github"
-        }
-    ]).then(function(work) {
-        let eng = new Engineer(work.name, work.id, work.email, work.github);
-        team.push(eng);
-        init()
-    })
+                type: "input",
+                message: "Enter Name",
+                name: "name"
+            },
+            {
+                type: "input",
+                message: "What is your Employee id number?",
+                name: "id"
+            },
+            {
+                type: "input",
+                message: "What is your email?",
+                name: "email"
+            },
+            {
+                type: "input",
+                message: "What school did you attend?",
+                name: "school"
+            },
+        ])
+        .then(function(work) {
+            console.log(work);
+            var newb = new Intern(work.name, work.id, work.email, work.school);
+            buildTeam.push(newb);
+            init()
+        })
 }
 
+function awesomeTeam() {
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR)
+    }
+    fs.writeFileSync(outputPath, render(buildTeam), "utf-8")
+}
 
-
-fs.mkdirSync(OUTPUT_DIR)
-    // Write code to use inquirer to gather information about the development team members,
-    // and to create objects for each team member (using the correct classes as blueprints!)
+// console.log("whats wrong my dude" + fs.mkdirSync)
+init();
+// Write code to use inquirer to gather information about the development team members,
+// and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
