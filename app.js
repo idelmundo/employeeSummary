@@ -39,7 +39,7 @@ function init() {
     })
 }
 
-function engineer() {
+function runEngineer() {
     inquirer.prompt([{
             type: "input",
             message: "Enter Name",
@@ -47,14 +47,79 @@ function engineer() {
         },
         {
             type: "input",
-            message: "What is your Employee Id number?",
-            name: "Id"
+            message: "What is your Employee id number?",
+            name: "id"
         },
         {
-
+            type: "input",
+            message: "What is your email? "
+        },
+        {
+            type: "input",
+            message: "what is your github username?",
+            name: "github"
         }
-    ])
+    ]).then(function(work) {
+        let eng = new Engineer(work.name, work.id, work.email, work.github);
+        team.push(eng);
+        init()
+    })
 }
+
+function runManeger() {
+    inquirer.prompt([{
+            type: "input",
+            message: "Enter Name",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is your Employee id number?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is your email? "
+        },
+        {
+            type: "input",
+            message: "Enter your office number?",
+            name: "officeNumber"
+        }
+    ]).then(function(work) {
+        let mgr = new Manager(work.name, work.id, work.email, work.github);
+        team.push(mgr);
+        init()
+    })
+}
+
+function runIntern() {
+    inquirer.prompt([{
+            type: "input",
+            message: "Enter Name",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is your Employee id number?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is your email? "
+        },
+        {
+            type: "input",
+            message: "What school did you attend?",
+            name: "github"
+        }
+    ]).then(function(work) {
+        let eng = new Engineer(work.name, work.id, work.email, work.github);
+        team.push(eng);
+        init()
+    })
+}
+
 
 
 fs.mkdirSync(OUTPUT_DIR)
