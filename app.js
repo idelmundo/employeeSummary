@@ -24,7 +24,7 @@ function init() {
 
         }])
         .then(teamMember => {
-            switch (teamMember.createTeamMember) {
+            switch (teamMember.createTeamMember) { //another 
                 case "Manager":
                     runManeger()
                     break;
